@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import seaborn as sns
 
-# ── Configuração da página ──────────────────────────────────────────
+# Configuração da página
 st.set_page_config(
     page_title="Sales Dashboard · Superstore",
     page_icon="📊",
@@ -12,7 +12,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ── CSS customizado ─────────────────────────────────────────────────
+# CSS customizado 
 st.markdown("""
 <style>
     /* Fundo geral */
@@ -163,7 +163,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ── Carregar dados ───────────────────────────────────────────────────
+# Carregar dados
 @st.cache_data
 def carregar_dados():
     df = pd.read_csv('data/Sample - Superstore.csv', encoding='latin1')
@@ -174,7 +174,7 @@ def carregar_dados():
 
 df = carregar_dados()
 
-# ── Sidebar ──────────────────────────────────────────────────────────
+# Sidebar
 with st.sidebar:
     st.markdown("## 🗂 Filtros")
     st.markdown("---")
@@ -192,14 +192,14 @@ with st.sidebar:
     st.markdown("**📊 Sales Dashboard**")
     st.markdown("Superstore Dataset · Kaggle")
 
-# ── Filtrar dados ────────────────────────────────────────────────────
+# Filtragem dos dados
 df_f = df[
     (df['Year'].isin(ano_selecionado)) &
     (df['Region'].isin(regiao_selecionada)) &
     (df['Category'].isin(categoria_selecionada))
 ]
 
-# ── Cabeçalho ────────────────────────────────────────────────────────
+# Cabeçalho
 st.markdown("""
 <div class="header-box">
     <h1>📊 Sales Dashboard — Superstore</h1>
@@ -207,7 +207,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# ── KPIs ─────────────────────────────────────────────────────────────
+# Kpi
 k1, k2, k3, k4 = st.columns(4)
 
 with k1:
@@ -239,7 +239,7 @@ with k4:
         <div class="kpi-value">{df_f['Order ID'].nunique():,}</div>
     </div>""", unsafe_allow_html=True)
 
-# ── Paleta e estilo dos gráficos ─────────────────────────────────────
+# Estilo dos graficos
 CORES = ["#2563EB", "#10B981", "#F59E0B", "#EF4444", "#8B5CF6"]
 sns.set_style("whitegrid")
 plt.rcParams.update({
@@ -250,7 +250,7 @@ plt.rcParams.update({
     'grid.alpha': 0.4,
 })
 
-# ── Linha 1: Vendas por Categoria + Lucro por Região ─────────────────
+# Vendas por Categoria + Lucro por Região
 st.markdown('<div class="section-title">Desempenho por Categoria e Região</div>', unsafe_allow_html=True)
 c1, c2 = st.columns(2)
 
@@ -287,7 +287,7 @@ with c2:
         plt.tight_layout()
         st.pyplot(fig)
 
-# ── Linha 2: Evolução mensal ──────────────────────────────────────────
+# Evolução mensal
 st.markdown('<div class="section-title">Evolução Mensal das Vendas</div>', unsafe_allow_html=True)
 
 vendas_mes = df_f.groupby('Month')['Sales'].sum()
@@ -303,7 +303,7 @@ fig.patch.set_facecolor('white')
 plt.tight_layout()
 st.pyplot(fig)
 
-# ── Linha 3: Pizza + Top 10 ───────────────────────────────────────────
+# Pizza + Top 10
 st.markdown('<div class="section-title">Participação e Top Produtos</div>', unsafe_allow_html=True)
 c3, c4 = st.columns(2)
 
@@ -337,7 +337,7 @@ with c4:
     plt.tight_layout()
     st.pyplot(fig)
 
-# ── Tabela de dados ───────────────────────────────────────────────────
+# Tabela de dados
 st.markdown('<div class="section-title">Dados Detalhados</div>', unsafe_allow_html=True)
 with st.expander("🔍 Ver tabela de dados"):
     st.dataframe(
